@@ -7,4 +7,4 @@ project(BilliardGame
 
 include(cmake/setup_project.cmake)
 
-add_subdirectory(game)
+add_subdirectory(app)
