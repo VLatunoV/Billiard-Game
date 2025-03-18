@@ -2,9 +2,15 @@ include(${CMAKE_SOURCE_DIR}/cmake/utilities.cmake)
 
 set(APP_TARGET_NAME app)
 
-set(SOURCES main.cpp)
+file(GLOB SOURCES CONFIGURE_DEPENDS
+	*.cpp
+)
 
-add_executable(${APP_TARGET_NAME} ${SOURCES})
+file(GLOB HEADERS CONFIGURE_DEPENDS
+	*.h
+)
+
+add_executable(${APP_TARGET_NAME} ${SOURCES} ${HEADERS})
 
 set_target_properties(${APP_TARGET_NAME}
 	PROPERTIES
