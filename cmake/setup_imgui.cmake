@@ -1,4 +1,4 @@
-set(IMGUI_NAME imgui)
+set(IMGUI_TARGET imgui)
 
 file(GLOB SOURCES
 	${CMAKE_SOURCE_DIR}/3rd/imgui/*.cpp
@@ -14,18 +14,18 @@ file(GLOB HEADERS
 	${CMAKE_SOURCE_DIR}/3rd/imgui/misc/cpp/imgui_stdlib.h
 )
 
-add_library(${IMGUI_NAME} STATIC
+add_library(${IMGUI_TARGET} STATIC
 	${SOURCES}
 	${HEADERS}
 )
 
-target_include_directories(${IMGUI_NAME}
+target_include_directories(${IMGUI_TARGET}
 	PUBLIC
 		${CMAKE_SOURCE_DIR}/3rd/imgui
 		${CMAKE_SOURCE_DIR}/3rd/imgui/backends
 )
 
-target_link_libraries(${IMGUI_NAME}
+target_link_libraries(${IMGUI_TARGET}
 	PUBLIC
 		SDL3::SDL3
 )
