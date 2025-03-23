@@ -1,16 +1,11 @@
-set(UTILS_TARGET utils)
+set(TARGET_NAME utils)
 
 file(GLOB SOURCES CONFIGURE_DEPENDS *.cpp)
 file(GLOB HEADERS CONFIGURE_DEPENDS *.h)
 
-add_library(${UTILS_TARGET} STATIC
+add_library(${TARGET_NAME} STATIC
 	${SOURCES}
 	${HEADERS}
 )
 
-set_target_properties(${UTILS_TARGET} PROPERTIES LINKER_LANGUAGE CXX)
-
-target_include_directories(${UTILS_TARGET}
-	PUBLIC
-		${CMAKE_CURRENT_LIST_DIR}
-)
+set_target_properties(${TARGET_NAME} PROPERTIES LINKER_LANGUAGE CXX)

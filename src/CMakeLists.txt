@@ -1,24 +1,26 @@
 include(${CMAKE_SOURCE_DIR}/cmake/utilities.cmake)
 
-set(APP_TARGET_NAME app)
+set(TARGET_NAME game)
 
-file(GLOB SOURCES CONFIGURE_DEPENDS *.cpp)
-file(GLOB HEADERS CONFIGURE_DEPENDS *.h)
+add_executable(${TARGET_NAME} main.cpp)
 
-add_executable(${APP_TARGET_NAME} ${SOURCES} ${HEADERS})
-
-set_target_properties(${APP_TARGET_NAME}
+set_target_properties(${TARGET_NAME}
 	PROPERTIES
 		OUTPUT_NAME Billiards
 )
 
-target_link_libraries(${APP_TARGET_NAME}
+target_link_libraries(${TARGET_NAME}
 	PRIVATE
-		OpenGL::GL
-		imgui
+		app
 		physics
+		graphics
+		modules
 )
 
-install_runtime_dependencies(${APP_TARGET_NAME})
+install_runtime_dependencies(${TARGET_NAME})
 
+add_subdirectory(application)
+add_subdirectory(graphics)
+add_subdirectory(modules)
 add_subdirectory(physics)
+add_subdirectory(utils)
