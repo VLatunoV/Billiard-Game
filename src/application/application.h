@@ -9,14 +9,14 @@ public:
 	Application();
 	~Application();
 
-	int run();
+	int Run();
 
 private:
-	void startup();
-	void shutdown();
-	void mainLoop();
+	void Startup();
+	void Shutdown();
+	void MainLoop();
 
-	void processEvents();
+	void ProcessEvents();
 
 	State state;
 

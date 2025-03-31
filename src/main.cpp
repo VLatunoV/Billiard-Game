@@ -2,5 +2,5 @@
 
 int main(int, char**) {
 	Application app;
-	return app.run();
+	return app.Run();
 }

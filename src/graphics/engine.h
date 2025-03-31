@@ -7,7 +7,7 @@ public:
 	GraphicsEngine(State&);
 	~GraphicsEngine();
 
-	void drawFrame();
+	void DrawFrame();
 
 private:
 	State& state;

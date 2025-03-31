@@ -16,7 +16,7 @@ struct Vector2d {
 	inline Vector2d& operator*=(float scalar) noexcept;
 	inline Vector2d& operator/=(float scalar);
 
-	inline Vector2d perp() const noexcept;
+	inline Vector2d Perp() const noexcept;
 
 	float x{};
 	float y{};
@@ -44,7 +44,7 @@ inline Vector2d& Vector2d::operator/=(float scalar) {
 	return *this *= (1.0f / scalar);
 }
 
-inline Vector2d Vector2d::perp() const noexcept {
+inline Vector2d Vector2d::Perp() const noexcept {
 	return {-y, x};
 }
 
@@ -88,15 +88,15 @@ inline Vector2d Vector2d::perp() const noexcept {
 // Vector functions
 // =========================================================================================
 
-[[nodiscard]] inline float dot(const Vector2d& lhs, const Vector2d& rhs) noexcept {
+[[nodiscard]] inline float Dot(const Vector2d& lhs, const Vector2d& rhs) noexcept {
 	return lhs.x*rhs.x + lhs.y*rhs.y;
 }
 
-[[nodiscard]] inline float cross(const Vector2d& lhs, const Vector2d& rhs) noexcept {
+[[nodiscard]] inline float Cross(const Vector2d& lhs, const Vector2d& rhs) noexcept {
 	return lhs.x*rhs.y - lhs.y*rhs.x;
 }
 
-[[nodiscard]] inline Vector2d perp(const Vector2d& lhs) noexcept {
-	return lhs.perp();
+[[nodiscard]] inline Vector2d Perp(const Vector2d& lhs) noexcept {
+	return lhs.Perp();
 }
 } // namespace math

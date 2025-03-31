@@ -3,7 +3,7 @@
 #include <sstream>
 
 template <typename Exception, typename... Args>
-[[noreturn]] inline void raise(Args&&... args) {
+[[noreturn]] inline void Raise(Args&&... args) {
 	std::ostringstream msg;
 	(msg << ... << args);
 	throw Exception(msg.str().c_str());

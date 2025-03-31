@@ -7,7 +7,7 @@
 
 SdlModule::SdlModule() {
 	if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMEPAD)) {
-		raise<InitializationException>(SDL_GetError());
+		Raise<InitializationException>(SDL_GetError());
 	}
 
 	// GL 3.0 + GLSL 130
@@ -25,13 +25,13 @@ SdlModule::SdlModule() {
 	Uint32 windowFlags = SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIDDEN;
 	window.reset(SDL_CreateWindow("Dear ImGui SDL3+OpenGL3 example", 1280, 720, windowFlags));
 	if (window == nullptr) {
-		raise<InitializationException>(SDL_GetError());
+		Raise<InitializationException>(SDL_GetError());
 	}
 	SDL_SetWindowPosition(window.get(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 
 	glContext.reset(SDL_GL_CreateContext(window.get()));
 	if (glContext == nullptr) {
-		raise<InitializationException>(SDL_GetError());
+		Raise<InitializationException>(SDL_GetError());
 	}
 
 	SDL_GL_MakeCurrent(window.get(), glContext.get());
@@ -43,15 +43,15 @@ SdlModule::~SdlModule() {
 	SDL_Quit();
 }
 
-SDL_Window* SdlModule::getWindow() const {
+SDL_Window* SdlModule::GetWindow() const {
 	return window.get();
 }
 
-SDL_GLContextState* SdlModule::getGlContext() const {
+SDL_GLContextState* SdlModule::GetGlContext() const {
 	return glContext.get();
 }
 
-const char* SdlModule::getGlslVersion() const {
+const char* SdlModule::GetGlslVersion() const {
 	return glslVersion;
 }
 

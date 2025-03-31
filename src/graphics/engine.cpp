@@ -35,7 +35,7 @@ GraphicsEngine::~GraphicsEngine() {
 
 }
 
-void GraphicsEngine::drawFrame() {
+void GraphicsEngine::DrawFrame() {
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL3_NewFrame();
 	ImGui::NewFrame();

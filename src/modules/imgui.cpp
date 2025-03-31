@@ -17,8 +17,8 @@ ImGuiModule::ImGuiModule(const SdlProvider& sdlProvider, const GlslProvider& gls
 	ImGui::StyleColorsDark();
 
 	// Setup Platform/Renderer backends
-	ImGui_ImplSDL3_InitForOpenGL(sdlProvider.getWindow(), sdlProvider.getGlContext());
-	ImGui_ImplOpenGL3_Init(glslProvider.getGlslVersion());
+	ImGui_ImplSDL3_InitForOpenGL(sdlProvider.GetWindow(), sdlProvider.GetGlContext());
+	ImGui_ImplOpenGL3_Init(glslProvider.GetGlslVersion());
 }
 
 ImGuiModule::~ImGuiModule() {

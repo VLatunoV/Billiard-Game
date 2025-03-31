@@ -16,11 +16,11 @@ public:
 	~SdlModule();
 
 	// From SdlProvider
-	SDL_Window* getWindow() const override;
-	SDL_GLContextState* getGlContext() const override;
+	SDL_Window* GetWindow() const override;
+	SDL_GLContextState* GetGlContext() const override;
 
 	// From GlslProvider
-	const char* getGlslVersion() const override;
+	const char* GetGlslVersion() const override;
 
 private:
 	struct WindowDeleter {

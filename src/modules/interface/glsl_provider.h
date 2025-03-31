@@ -2,5 +2,5 @@
 
 class GlslProvider {
 public:
-	virtual const char* getGlslVersion() const = 0;
+	virtual const char* GetGlslVersion() const = 0;
 };
