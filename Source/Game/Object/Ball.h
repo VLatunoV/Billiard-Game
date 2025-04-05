@@ -1,5 +1,5 @@
 #pragma once
-#include "object.h"
+#include "Object.h"
 
 class Ball: public GameObject {
 	// From GameObject

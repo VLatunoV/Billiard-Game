@@ -1,8 +1,8 @@
 #pragma once
-#include "state.h"
+#include "State.h"
 
-#include "modules/imgui.h"
-#include "modules/sdl.h"
+#include "Modules/Imgui.h"
+#include "Modules/Sdl.h"
 
 class Application {
 public:

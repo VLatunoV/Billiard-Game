@@ -19,9 +19,9 @@ target_link_libraries(${TARGET_NAME}
 
 install_runtime_dependencies(${TARGET_NAME})
 
-add_subdirectory(application)
-add_subdirectory(game)
-add_subdirectory(graphics)
-add_subdirectory(modules)
-add_subdirectory(physics)
-add_subdirectory(utils)
+add_subdirectory(Application)
+add_subdirectory(Game)
+add_subdirectory(Graphics)
+add_subdirectory(Modules)
+add_subdirectory(Physics)
+add_subdirectory(Utils)

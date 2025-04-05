@@ -1,6 +1,6 @@
 #pragma once
-#include "interface/sdl_provider.h"
-#include "interface/glsl_provider.h"
+#include "Interface/SdlProvider.h"
+#include "Interface/GlslProvider.h"
 
 #include <memory>
 

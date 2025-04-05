@@ -1,4 +1,4 @@
-#include "engine.h"
+#include "Engine.h"
 
 #include "imgui.h"
 #include "imgui_impl_sdl3.h"
@@ -10,7 +10,7 @@
 
 
 #include <type_traits>
-#include "physics/vector.h"
+#include "Physics/Vector.h"
 #include <cmath>
 #include <iostream>
 using namespace math;

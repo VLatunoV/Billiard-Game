@@ -1,5 +1,5 @@
 #pragma once
-#include "modules/sdl.h"
+#include "Modules/Sdl.h"
 
 class GraphicsEngine {
 public:

@@ -1,6 +1,6 @@
-#include "sdl.h"
+#include "Sdl.h"
 
-#include "utils/exception.h"
+#include "Utils/Exception.h"
 
 #include "SDL3/SDL.h"
 #include "SDL3/SDL_opengl.h"

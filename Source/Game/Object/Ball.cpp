@@ -1,6 +1,6 @@
-#include "ball.h"
+#include "Ball.h"
 
-#include "game/object_manager.h"
+#include "Game/ObjectManager.h"
 
 void Ball::Register(ObjectManager& objectManager) const {
 

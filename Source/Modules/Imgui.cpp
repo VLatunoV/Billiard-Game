@@ -1,7 +1,7 @@
-#include "imgui.h"
+#include "Imgui.h"
 
-#include "interface/sdl_provider.h"
-#include "interface/glsl_provider.h"
+#include "Interface/SdlProvider.h"
+#include "Interface/GlslProvider.h"
 
 #include "../imgui.h"
 #include "imgui_impl_sdl3.h"

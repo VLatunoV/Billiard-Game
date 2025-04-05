@@ -1,6 +1,6 @@
-#include "application.h"
+#include "Application.h"
 
-#include "graphics/engine.h"
+#include "Graphics/Engine.h"
 #include "SDL3/SDL.h"
 #include "imgui_impl_sdl3.h"
 
