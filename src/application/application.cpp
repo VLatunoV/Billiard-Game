@@ -35,9 +35,9 @@ int Application::Run() {
 
 void Application::Startup() {
 	sdlModule = std::make_unique<SdlModule>();
-	imguiModule = std::make_unique<ImGuiModule>(*sdlModule.get(), *sdlModule.get());
+	imguiModule = std::make_unique<ImGuiModule>(*sdlModule, *sdlModule);
 
-	graphicsEngine = std::make_unique<GraphicsEngine>(state);
+	graphicsEngine = std::make_unique<GraphicsEngine>(*sdlModule);
 }
 
 void Application::Shutdown() {
@@ -57,8 +57,6 @@ void Application::MainLoop() {
 		}
 
 		graphicsEngine->DrawFrame();
-
-		SDL_GL_SwapWindow(window);
 	}
 }
 

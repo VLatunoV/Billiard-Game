@@ -1,14 +1,15 @@
 #pragma once
-
-struct State;
+#include "modules/sdl.h"
 
 class GraphicsEngine {
 public:
-	GraphicsEngine(State&);
+	GraphicsEngine(SdlProvider& sdlProvider);
 	~GraphicsEngine();
 
 	void DrawFrame();
 
 private:
-	State& state;
+	void DrawFrameInternal();
+
+	SDL_Window* const window = nullptr;
 };
