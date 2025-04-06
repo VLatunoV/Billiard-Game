@@ -1,16 +1,14 @@
 #include "Engine.h"
 
-#include "imgui.h"
-#include "imgui_impl_sdl3.h"
-#include "imgui_impl_opengl3.h"
+#include "Physics/Vector.h"
 
-#include "SDL3/SDL.h"
-#include "SDL3/SDL_opengl.h"
-
-
+#include <imgui.h>
+#include <imgui_impl_sdl3.h>
+#include <imgui_impl_opengl3.h>
+#include <SDL3/SDL.h>
+#include <SDL3/SDL_opengl.h>
 
 #include <type_traits>
-#include "Physics/Vector.h"
 #include <cmath>
 #include <iostream>
 

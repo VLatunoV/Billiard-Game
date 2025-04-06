@@ -4,8 +4,8 @@
 #include "Observer/Observed.h"
 #include "Observer/KeyboardObsever.h"
 #include "Observer/MouseObserver.h"
-#include "Modules/Imgui.h"
-#include "Modules/Sdl.h"
+
+#include <memory>
 
 class Application
 	: public Observed<KeyboardObserver>
@@ -41,8 +41,8 @@ private:
 
 	State state;
 
-	std::unique_ptr<SdlModule> sdlModule;
-	std::unique_ptr<ImGuiModule> imguiModule;
+	std::unique_ptr<class SdlModule> sdlModule;
+	std::unique_ptr<class ImGuiModule> imguiModule;
 
 	std::unique_ptr<class GraphicsEngine> graphicsEngine;
 	std::unique_ptr<class ObjectManager> objectManager;

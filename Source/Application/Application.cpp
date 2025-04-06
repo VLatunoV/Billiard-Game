@@ -2,8 +2,11 @@
 
 #include "Game/ObjectManager.h"
 #include "Graphics/Engine.h"
-#include "SDL3/SDL.h"
-#include "imgui_impl_sdl3.h"
+#include "Modules/Imgui.h"
+#include "Modules/Sdl.h"
+
+#include <SDL3/SDL.h>
+#include <imgui_impl_sdl3.h>
 
 #include <exception>
 #include <iostream>
