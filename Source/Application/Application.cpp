@@ -1,5 +1,6 @@
 #include "Application.h"
 
+#include "Game/ObjectManager.h"
 #include "Graphics/Engine.h"
 #include "SDL3/SDL.h"
 #include "imgui_impl_sdl3.h"
@@ -38,11 +39,14 @@ void Application::Startup() {
 	imguiModule = std::make_unique<ImGuiModule>(*sdlModule, *sdlModule);
 
 	graphicsEngine = std::make_unique<GraphicsEngine>(*sdlModule);
+	objectManager = std::make_unique<ObjectManager>();
+
+	RegisterObserver(static_cast<KeyboardObserver*>(this));
+	RegisterObserver(static_cast<MouseObserver*>(this));
+	objectManager->RegisterObject();
 }
 
-void Application::Shutdown() {
-
-}
+void Application::Shutdown() {}
 
 void Application::MainLoop() {
 	const auto window = sdlModule->GetWindow();
@@ -64,9 +68,52 @@ void Application::ProcessEvents() {
 	SDL_Event event;
 	while (SDL_PollEvent(&event)) {
 		ImGui_ImplSDL3_ProcessEvent(&event);
-		if (event.type == SDL_EVENT_QUIT)
+		switch (event.type) {
+		case SDL_EVENT_QUIT:
 			state.shouldQuit = true;
-		if (event.type == SDL_EVENT_WINDOW_CLOSE_REQUESTED && event.window.windowID == SDL_GetWindowID(sdlModule->GetWindow()))
-			state.shouldQuit = true;
+			break;
+		case SDL_EVENT_WINDOW_CLOSE_REQUESTED:
+			if (event.window.windowID == SDL_GetWindowID(sdlModule->GetWindow()))
+				state.shouldQuit = true;
+			break;
+		case SDL_EVENT_KEY_DOWN:
+			Notify(&KeyboardObserver::KeyDown, event.key);
+			break;
+		case SDL_EVENT_KEY_UP:
+			Notify(&KeyboardObserver::KeyUp, event.key);
+			break;
+		case SDL_EVENT_MOUSE_BUTTON_DOWN:
+			Notify(&MouseObserver::MouseDown, event.button);
+			break;
+		case SDL_EVENT_MOUSE_BUTTON_UP:
+			Notify(&MouseObserver::MouseUp, event.button);
+			break;
+		case SDL_EVENT_MOUSE_MOTION:
+			Notify(&MouseObserver::MouseMove, event.motion);
+			break;
+		}
 	}
+}
+
+void Application::KeyDown(const SDL_KeyboardEvent& e) {
+	std::cout << "Key down event: " << e.key << ", " << e.mod << ", " << e.repeat << std::endl;
+	if (e.key == SDLK_ESCAPE)
+		state.shouldQuit = true;
+}
+
+void Application::KeyUp(const SDL_KeyboardEvent& e) {
+	std::cout << "Key up event: " << e.key << ", " << e.mod << std::endl;
+}
+
+void Application::MouseDown(const SDL_MouseButtonEvent& e) {
+	const bool isDoubleClick = (e.clicks == 2);
+	std::cout << "Mouse pressed: " << int(e.button) << ", " << int(e.clicks) << ", (" << e.x << ", " << e.y << ")" << std::endl;
+}
+
+void Application::MouseUp(const SDL_MouseButtonEvent& e) {
+	std::cout << "Mouse released: " << int(e.button) << ", (" << e.x << ", " << e.y << ")" << std::endl;
+}
+
+void Application::MouseMove(const SDL_MouseMotionEvent& e) {
+	std::cout << "Mouse motion: " << e.x << ", " << e.y << ", (" << e.xrel << ", " << e.yrel << ")" << std::endl;
 }

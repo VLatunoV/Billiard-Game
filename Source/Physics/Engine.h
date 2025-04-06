@@ -1,6 +1,6 @@
 #pragma once
 
-class PhysEngine
-{
-
+class PhysicsEngine {
+public:
+	void Update(float deltaTime);
 };
