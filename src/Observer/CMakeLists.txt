@@ -1,0 +1,16 @@
+set(TARGET_NAME observer)
+
+file(GLOB SOURCES CONFIGURE_DEPENDS *.cpp)
+file(GLOB HEADERS CONFIGURE_DEPENDS *.h)
+
+add_library(${TARGET_NAME} INTERFACE
+	${SOURCES}
+	${HEADERS}
+)
+
+target_link_libraries(${TARGET_NAME}
+	INTERFACE
+		SDL3::SDL3
+)
+
+set_target_properties(${TARGET_NAME} PROPERTIES LINKER_LANGUAGE CXX)

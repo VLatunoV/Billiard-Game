@@ -12,9 +12,10 @@ set_target_properties(${TARGET_NAME}
 target_link_libraries(${TARGET_NAME}
 	PRIVATE
 		app
-		physics
 		graphics
 		modules
+		observer
+		physics
 )
 
 install_runtime_dependencies(${TARGET_NAME})
@@ -23,5 +24,6 @@ add_subdirectory(Application)
 add_subdirectory(Game)
 add_subdirectory(Graphics)
 add_subdirectory(Modules)
+add_subdirectory(Observer)
 add_subdirectory(Physics)
 add_subdirectory(Utils)

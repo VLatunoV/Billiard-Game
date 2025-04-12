@@ -26,15 +26,17 @@ private:
 	void MainLoop();
 	void ProcessEvents();
 
+	void RegisterMouseObserver(MouseObserver* o);
+	void RegisterKeyboardObserver(KeyboardObserver* o);
+	void RegisterObservers();
+
 	// From KeyboardObserver
 	using Observed<KeyboardObserver>::Notify;
-	using Observed<KeyboardObserver>::RegisterObserver;
 	void KeyDown(const SDL_KeyboardEvent& e) override;
 	void KeyUp(const SDL_KeyboardEvent& e) override;
 
 	// From MouseObserver
 	using Observed<MouseObserver>::Notify;
-	using Observed<MouseObserver>::RegisterObserver;
 	void MouseDown(const SDL_MouseButtonEvent& e) override;
 	void MouseUp(const SDL_MouseButtonEvent& e) override;
 	void MouseMove(const SDL_MouseMotionEvent& e) override;

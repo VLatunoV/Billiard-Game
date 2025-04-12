@@ -15,6 +15,7 @@ add_library(${TARGET_NAME} STATIC
 target_link_libraries(${TARGET_NAME}
 	PUBLIC
 		imgui
+		SDL3::SDL3
 	PRIVATE
 		utils
 )

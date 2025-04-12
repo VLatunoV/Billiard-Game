@@ -44,9 +44,7 @@ void Application::Startup() {
 	graphicsEngine = std::make_unique<GraphicsEngine>(*sdlModule);
 	objectManager = std::make_unique<ObjectManager>();
 
-	RegisterObserver(static_cast<KeyboardObserver*>(this));
-	RegisterObserver(static_cast<MouseObserver*>(this));
-	objectManager->RegisterObject();
+	RegisterObservers();
 }
 
 void Application::Shutdown() {}
@@ -96,6 +94,20 @@ void Application::ProcessEvents() {
 			break;
 		}
 	}
+}
+
+void Application::RegisterMouseObserver(MouseObserver* o) {
+	Observed<MouseObserver>::RegisterObserver(o);
+}
+
+void Application::RegisterKeyboardObserver(KeyboardObserver* o) {
+	Observed<KeyboardObserver>::RegisterObserver(o);
+}
+
+void Application::RegisterObservers() {
+	RegisterKeyboardObserver(this);
+	RegisterMouseObserver(this);
+	RegisterMouseObserver(objectManager.get());
 }
 
 void Application::KeyDown(const SDL_KeyboardEvent& e) {

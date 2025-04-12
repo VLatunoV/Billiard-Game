@@ -7,3 +7,8 @@ add_library(${TARGET_NAME} STATIC
 	${SOURCES}
 	${HEADERS}
 )
+
+target_link_libraries(${TARGET_NAME}
+	PRIVATE
+		observer
+)

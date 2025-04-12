@@ -1,7 +1,5 @@
 #pragma once
 
-namespace math
-{
 struct Vector2d {
 	constexpr Vector2d() noexcept = default;
 	constexpr Vector2d(float _x, float _y) noexcept: x{_x}, y{_y} {}
@@ -99,4 +97,3 @@ inline Vector2d Vector2d::Perp() const noexcept {
 [[nodiscard]] inline Vector2d Perp(const Vector2d& lhs) noexcept {
 	return lhs.Perp();
 }
-} // namespace math
