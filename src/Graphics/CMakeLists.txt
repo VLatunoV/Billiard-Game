@@ -12,5 +12,6 @@ target_link_libraries(${TARGET_NAME}
 	PRIVATE
 		OpenGL::GL
 		imgui
+		SDL3::SDL3
 		utils
 )

@@ -26,6 +26,6 @@ target_include_directories(${IMGUI_TARGET}
 )
 
 target_link_libraries(${IMGUI_TARGET}
-	PUBLIC
+	PRIVATE
 		SDL3::SDL3
 )

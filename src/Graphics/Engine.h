@@ -16,4 +16,5 @@ private:
 	SDL_Window* const window = nullptr;
 
 	std::unique_ptr<class GameMenu> gameUi;
+	std::unique_ptr<class GameRender> gameRender;
 };

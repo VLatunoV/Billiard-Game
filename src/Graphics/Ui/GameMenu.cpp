@@ -2,10 +2,11 @@
 
 #include <imgui.h>
 #include <imgui_impl_opengl3.h>
+#include <SDL3/SDL_opengl.h>
 
 void GameMenu::PreRender() {
-	const auto& io = ImGui::GetIO();
 	// Our state
+	const auto& io = ImGui::GetIO();
 	static bool show_demo_window = false;
 	static bool show_another_window = false;
 
@@ -53,6 +54,8 @@ void GameMenu::PreRender() {
 }
 
 void GameMenu::Render() {
+	const auto& io = ImGui::GetIO();
+	glViewport(0, 0, int(io.DisplaySize.x), int(io.DisplaySize.y));
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
