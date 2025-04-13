@@ -9,7 +9,11 @@ public:
 	void DrawFrame();
 
 private:
-	void DrawFrameInternal();
+	void PreRender();
+	void Render();
+	void PostRender();
 
 	SDL_Window* const window = nullptr;
+
+	std::unique_ptr<class GameMenu> gameUi;
 };

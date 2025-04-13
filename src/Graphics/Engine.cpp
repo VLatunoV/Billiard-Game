@@ -1,5 +1,7 @@
 #include "Engine.h"
 
+#include "Viewport.h"
+#include "Ui/GameMenu.h"
 #include "Utils/Vector.h"
 
 #include <imgui.h>
@@ -85,6 +87,7 @@ void DrawCoordinateSystem(float left, float right, float bottom, float top) {
 
 GraphicsEngine::GraphicsEngine(SdlProvider& sdlProvider)
 	: window{sdlProvider.GetWindow()}
+	, gameUi{std::make_unique<GameMenu>()}
 {
 
 }
@@ -94,71 +97,28 @@ GraphicsEngine::~GraphicsEngine() {
 }
 
 void GraphicsEngine::DrawFrame() {
-	DrawFrameInternal();
-	SDL_GL_SwapWindow(window);
+	PreRender();
+	Render();
+	PostRender();
 }
 
-void GraphicsEngine::DrawFrameInternal() {
+void GraphicsEngine::PreRender() {
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL3_NewFrame();
 	ImGui::NewFrame();
+
+	gameUi->PreRender();
+}
+
+void GraphicsEngine::Render() {
 	auto& io = ImGui::GetIO();
-
-	// Our state
-	static bool show_demo_window = false;
-	static bool show_another_window = false;
-	static ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-
-	static float circleRad = 57.15f * 1e-3f; // mm
-
-	// 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
-	if (show_demo_window)
-		ImGui::ShowDemoWindow(&show_demo_window);
-
-	// 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
-	const char windowName[] = "Testing window";
-	static float f = 0.0f;
-	static int counter = 0;
-
-	ImGui::SetNextWindowPos(ImVec2{0.0f, 0.0f});
-	ImGui::SetNextWindowCollapsed(false);
-	ImGui::SetNextWindowSize(ImVec2{0, io.DisplaySize.y});
-	ImGui::Begin(windowName, nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse);                          // Create a window called "Hello, world!" and append into it.
-	const auto windowSize = ImGui::GetWindowSize();
-
-	ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-	ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
-	ImGui::Checkbox("Another Window", &show_another_window);
-
-	ImGui::SliderFloat("Radius", &circleRad, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-	ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
-
-	if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-		counter++;
-	ImGui::SameLine();
-	ImGui::Text("counter = %d", counter);
-
-	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
-	ImGui::End();
-
-	// 3. Show another simple window.
-	if (show_another_window) {
-		ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-		ImGui::Text("Hello from another window!");
-		if (ImGui::Button("Close Me"))
-			show_another_window = false;
-		ImGui::End();
-	}
-
-	ImGui::GetForegroundDrawList()->AddText(ImVec2{io.MousePos.x, -10 + io.MousePos.y}, ImColor(255.0f, 0.0f, 0.0f, 255.0f), "My text");
-
+	const UiState& state = gameUi->GetUiState();
+	const auto windowSize = gameUi->GetSize();
+	
 	// Rendering
-	ImGui::Render();
 	glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
-	glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
+	glClearColor(state.clearColor.x, state.clearColor.y, state.clearColor.z, state.clearColor.w);
 	glClear(GL_COLOR_BUFFER_BIT);
-
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 	const float scale = 1.0f/240;
 	const ImVec4 drawArea{windowSize.x, 0.0f, io.DisplaySize.x - windowSize.x, io.DisplaySize.y};
@@ -171,5 +131,11 @@ void GraphicsEngine::DrawFrameInternal() {
 	glMatrixMode(GL_MODELVIEW);
 
 	DrawCoordinateSystem(-worldWidth, worldWidth, -worldHeight, worldHeight);
-	DrawCircle({0, 0}, circleRad);
+	DrawCircle({0, 0}, state.circleRad);
+
+	gameUi->Render();
+}
+
+void GraphicsEngine::PostRender() {
+	SDL_GL_SwapWindow(window);
 }

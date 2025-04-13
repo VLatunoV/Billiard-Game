@@ -70,29 +70,26 @@ void Application::ProcessEvents() {
 	while (SDL_PollEvent(&event)) {
 		ImGui_ImplSDL3_ProcessEvent(&event);
 		switch (event.type) {
-		case SDL_EVENT_QUIT:
-			state.shouldQuit = true;
-			break;
-		case SDL_EVENT_WINDOW_CLOSE_REQUESTED:
-			if (event.window.windowID == SDL_GetWindowID(sdlModule->GetWindow()))
+			case SDL_EVENT_QUIT:
 				state.shouldQuit = true;
-			break;
-		case SDL_EVENT_KEY_DOWN:
-			Notify(&KeyboardObserver::KeyDown, event.key);
-			break;
-		case SDL_EVENT_KEY_UP:
-			Notify(&KeyboardObserver::KeyUp, event.key);
-			break;
-		case SDL_EVENT_MOUSE_BUTTON_DOWN:
-			Notify(&MouseObserver::MouseDown, event.button);
-			break;
-		case SDL_EVENT_MOUSE_BUTTON_UP:
-			Notify(&MouseObserver::MouseUp, event.button);
-			break;
-		case SDL_EVENT_MOUSE_MOTION:
-			Notify(&MouseObserver::MouseMove, event.motion);
-			break;
+				break;
+			case SDL_EVENT_WINDOW_CLOSE_REQUESTED:
+				if (event.window.windowID == SDL_GetWindowID(sdlModule->GetWindow()))
+					state.shouldQuit = true;
+				break;
 		}
+
+		HandleInputEvents(event);
+	}
+}
+
+void Application::HandleInputEvents(SDL_Event& event) {
+	switch (event.type) {
+		case SDL_EVENT_KEY_DOWN: return Notify(&KeyboardObserver::KeyDown, event.key);
+		case SDL_EVENT_KEY_UP: return Notify(&KeyboardObserver::KeyUp, event.key);
+		case SDL_EVENT_MOUSE_BUTTON_DOWN: return Notify(&MouseObserver::MouseDown, event.button);
+		case SDL_EVENT_MOUSE_BUTTON_UP: return Notify(&MouseObserver::MouseUp, event.button);
+		case SDL_EVENT_MOUSE_MOTION: return Notify(&MouseObserver::MouseMove, event.motion);
 	}
 }
 

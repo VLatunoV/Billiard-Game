@@ -10,7 +10,7 @@ add_library(${TARGET_NAME} INTERFACE
 
 target_link_libraries(${TARGET_NAME}
 	INTERFACE
-		SDL3::SDL3
+		SDL3::Headers
 )
 
 set_target_properties(${TARGET_NAME} PROPERTIES LINKER_LANGUAGE CXX)

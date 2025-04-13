@@ -25,6 +25,7 @@ private:
 
 	void MainLoop();
 	void ProcessEvents();
+	void HandleInputEvents(SDL_Event& event);
 
 	void RegisterMouseObserver(MouseObserver* o);
 	void RegisterKeyboardObserver(KeyboardObserver* o);
