@@ -92,9 +92,15 @@ void GameRender::Render() {
 
 	DrawCoordinateSystem(-halfWidth, halfWidth, -halfHeight, halfHeight);
 	// DrawCircle({0, 0}, state.circleRad);
+
+	const auto& io = ImGui::GetIO();
+	const auto p = viewport.GetWorldCoordinates(Vector2d{io.MousePos.x, io.MousePos.y});
+	glBegin(GL_LINES);
+	glVertex2f(0.0f, 0.0f);
+	glVertex2f(p.x, p.y);
+	glEnd();
 }
 
 void GameRender::CalculateViewport(RectInt drawArea) {
 	viewport.SetDrawArea(drawArea);
-	// viewport.SetMinimumWorldWidth(3.2f);
 }

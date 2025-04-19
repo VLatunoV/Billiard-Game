@@ -1,5 +1,6 @@
 #pragma once
 #include "Utils/Rect.h"
+#include "Utils/Vector.h"
 
 class Viewport {
 public:
@@ -11,6 +12,8 @@ public:
 
 	float GetWorldWidth() const;
 	float GetWorldHeight() const;
+
+	Vector2d GetWorldCoordinates(Vector2d screenPoint) const;
 
 private:
 	float CalculateWorldScale(int width, int height) const;

@@ -42,9 +42,17 @@ float Viewport::GetWorldHeight() const {
 	return worldHeight;
 }
 
+Vector2d Viewport::GetWorldCoordinates(Vector2d screenPoint) const {
+	const auto center = (Vector2d(drawArea.x0, drawArea.y0) + Vector2d(drawArea.x1, drawArea.y1)) * 0.5f;
+	const auto offset = screenPoint - center;
+	const auto xVal = offset.x * (worldWidth / drawArea.Width());
+	const auto yVal = offset.y * (worldHeight / drawArea.Height());
+	return Vector2d{xVal, -yVal};
+}
+
 float Viewport::CalculateWorldScale(int width, int height) const {
-	float result = 1.0 / 240.f;
-	if (minWorldWidth > 0.0f) result = std::min(result, minWorldWidth / width);
-	if (minWorldHeight > 0.0f) result = std::min(result, minWorldHeight / height);
+	float result = DEFAULT_SCALE;
+	result = std::max(result, minWorldWidth / width);
+	result = std::max(result, minWorldHeight / height);
 	return result;
 }
