@@ -4,7 +4,7 @@
 
 class GameRender {
 public:
-    void PreRender(struct ImVec2 gameMenuSize);
+    void SetDrawArea(RectInt drawArea);
     void Render();
 
 private:

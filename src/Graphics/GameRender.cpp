@@ -79,9 +79,7 @@ void DrawCoordinateSystem(float left, float right, float bottom, float top) {
 	glDisable(GL_LINE_STIPPLE);
 }
 
-void GameRender::PreRender(ImVec2 gameMenuSize) {
-	const auto& io = ImGui::GetIO();
-	RectInt drawArea = {int(gameMenuSize.x), 0, int(io.DisplaySize.x), int(io.DisplaySize.y)};
+void GameRender::SetDrawArea(RectInt drawArea) {
 	CalculateViewport(drawArea);
 }
 

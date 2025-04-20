@@ -35,7 +35,9 @@ void GraphicsEngine::PreRender() {
 
 	gameUi->PreRender();
 	const auto uiWindowSize = gameUi->GetSize();
-	gameRender->PreRender(uiWindowSize);
+	const auto& io = ImGui::GetIO();
+	const RectInt drawArea = {int(uiWindowSize.x), 0, int(io.DisplaySize.x), int(io.DisplaySize.y)};
+	gameRender->SetDrawArea(drawArea);
 }
 
 void GraphicsEngine::Render() {

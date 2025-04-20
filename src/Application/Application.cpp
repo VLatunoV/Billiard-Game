@@ -84,13 +84,22 @@ void Application::ProcessEvents() {
 }
 
 void Application::HandleInputEvents(SDL_Event& event) {
-	switch (event.type) {
-		case SDL_EVENT_KEY_DOWN: return Notify(&KeyboardObserver::KeyDown, event.key);
-		case SDL_EVENT_KEY_UP: return Notify(&KeyboardObserver::KeyUp, event.key);
-		case SDL_EVENT_MOUSE_BUTTON_DOWN: return Notify(&MouseObserver::MouseDown, event.button);
-		case SDL_EVENT_MOUSE_BUTTON_UP: return Notify(&MouseObserver::MouseUp, event.button);
-		case SDL_EVENT_MOUSE_MOTION: return Notify(&MouseObserver::MouseMove, event.motion);
+	const auto& io = ImGui::GetIO();
+	if (io.WantCaptureMouse == false) {
+		switch (event.type) {
+			case SDL_EVENT_MOUSE_BUTTON_DOWN: return Notify(&MouseObserver::MouseDown, event.button);
+			case SDL_EVENT_MOUSE_BUTTON_UP: return Notify(&MouseObserver::MouseUp, event.button);
+			case SDL_EVENT_MOUSE_MOTION: return Notify(&MouseObserver::MouseMove, event.motion);
+		}
 	}
+	if (io.WantCaptureKeyboard == false) {
+		switch (event.type) {
+			case SDL_EVENT_KEY_DOWN: return Notify(&KeyboardObserver::KeyDown, event.key);
+			case SDL_EVENT_KEY_UP: return Notify(&KeyboardObserver::KeyUp, event.key);
+		}
+	}
+	if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_ESCAPE)
+		state.shouldQuit = true;
 }
 
 void Application::RegisterMouseObserver(MouseObserver* o) {
@@ -109,8 +118,6 @@ void Application::RegisterObservers() {
 
 void Application::KeyDown(const SDL_KeyboardEvent& e) {
 	std::cout << "Key down event: " << e.key << ", " << e.mod << ", " << e.repeat << std::endl;
-	if (e.key == SDLK_ESCAPE)
-		state.shouldQuit = true;
 }
 
 void Application::KeyUp(const SDL_KeyboardEvent& e) {
