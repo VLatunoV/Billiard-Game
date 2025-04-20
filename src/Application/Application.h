@@ -8,10 +8,10 @@
 #include <memory>
 
 class Application
-	: public Observed<KeyboardObserver>
-	, public Observed<MouseObserver>
-	, public KeyboardObserver
+	: public MouseObserved
+	, public KeyboardObserved
 	, public MouseObserver
+	, public KeyboardObserver
 {
 public:
 	Application();
@@ -31,16 +31,16 @@ private:
 	void RegisterKeyboardObserver(KeyboardObserver* o);
 	void RegisterObservers();
 
-	// From KeyboardObserver
-	using Observed<KeyboardObserver>::Notify;
-	void KeyDown(const SDL_KeyboardEvent& e) override;
-	void KeyUp(const SDL_KeyboardEvent& e) override;
-
 	// From MouseObserver
 	using Observed<MouseObserver>::Notify;
 	void MouseDown(const SDL_MouseButtonEvent& e) override;
 	void MouseUp(const SDL_MouseButtonEvent& e) override;
 	void MouseMove(const SDL_MouseMotionEvent& e) override;
+
+	// From KeyboardObserver
+	using Observed<KeyboardObserver>::Notify;
+	void KeyDown(const SDL_KeyboardEvent& e) override;
+	void KeyUp(const SDL_KeyboardEvent& e) override;
 
 	State state;
 

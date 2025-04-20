@@ -42,7 +42,7 @@ void Application::Startup() {
 	imguiModule = std::make_unique<ImGuiModule>(*sdlModule, *sdlModule);
 
 	graphicsEngine = std::make_unique<GraphicsEngine>(*sdlModule);
-	objectManager = std::make_unique<ObjectManager>();
+	objectManager = std::make_unique<ObjectManager>(static_cast<MouseObserved*>(this), static_cast<KeyboardObserved*>(this));
 
 	RegisterObservers();
 }
@@ -103,25 +103,16 @@ void Application::HandleInputEvents(SDL_Event& event) {
 }
 
 void Application::RegisterMouseObserver(MouseObserver* o) {
-	Observed<MouseObserver>::RegisterObserver(o);
+	MouseObserved::RegisterObserver(o);
 }
 
 void Application::RegisterKeyboardObserver(KeyboardObserver* o) {
-	Observed<KeyboardObserver>::RegisterObserver(o);
+	KeyboardObserved::RegisterObserver(o);
 }
 
 void Application::RegisterObservers() {
-	RegisterKeyboardObserver(this);
 	RegisterMouseObserver(this);
-	RegisterMouseObserver(objectManager.get());
-}
-
-void Application::KeyDown(const SDL_KeyboardEvent& e) {
-	std::cout << "Key down event: " << e.key << ", " << e.mod << ", " << e.repeat << std::endl;
-}
-
-void Application::KeyUp(const SDL_KeyboardEvent& e) {
-	std::cout << "Key up event: " << e.key << ", " << e.mod << std::endl;
+	RegisterKeyboardObserver(this);
 }
 
 void Application::MouseDown(const SDL_MouseButtonEvent& e) {
@@ -135,4 +126,12 @@ void Application::MouseUp(const SDL_MouseButtonEvent& e) {
 
 void Application::MouseMove(const SDL_MouseMotionEvent& e) {
 	std::cout << "Mouse motion: " << e.x << ", " << e.y << ", (" << e.xrel << ", " << e.yrel << ")" << std::endl;
+}
+
+void Application::KeyDown(const SDL_KeyboardEvent& e) {
+	std::cout << "Key down event: " << e.key << ", " << e.mod << ", " << e.repeat << std::endl;
+}
+
+void Application::KeyUp(const SDL_KeyboardEvent& e) {
+	std::cout << "Key up event: " << e.key << ", " << e.mod << std::endl;
 }

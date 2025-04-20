@@ -18,3 +18,6 @@ protected:
 private:
 	std::vector<T*> observers;
 };
+
+using MouseObserved = Observed<class MouseObserver>;
+using KeyboardObserved = Observed<class KeyboardObserver>;

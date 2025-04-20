@@ -1,19 +1,20 @@
 #pragma once
-#include "Observer/MouseObserver.h"
+#include "Observer/Observed.h"
 #include <vector>
 
 class GameObject;
 
-class ObjectManager: public MouseObserver {
+class ObjectManager {
 public:
+	ObjectManager(MouseObserved* mouseObserved, KeyboardObserved* keyboardObserved);
+
 	void RegisterObject(GameObject& obj);
 
 private:
-	// From MouseObserver
-	void MouseDown(const SDL_MouseButtonEvent& e) override;
-	void MouseUp(const SDL_MouseButtonEvent& e) override;
-	void MouseMove(const SDL_MouseMotionEvent& e) override;
+	void RegisterMouseObserver(const MouseObserver& observer) const;
+	void RegisterKeyboardObserver(const KeyboardObserver& observer) const;
 
-private:
 	std::vector<GameObject*> objects;
+	MouseObserved* const mouseObserved;
+	KeyboardObserved* const keyboardObserved;
 };
