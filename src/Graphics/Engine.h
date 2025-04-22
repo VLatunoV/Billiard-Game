@@ -1,6 +1,8 @@
 #pragma once
 #include "Modules/Sdl.h"
 
+struct FrameData;
+
 class GraphicsEngine {
 public:
 	GraphicsEngine(SdlProvider& sdlProvider);
@@ -9,12 +11,12 @@ public:
 	void DrawFrame();
 
 private:
-	void PreRender();
-	void Render();
-	void PostRender();
+	void PopulateFrameData(FrameData& frameData);
+	void PreRender(const FrameData& frameData);
+	void Render(const FrameData& frameData);
+	void PostRender(const FrameData& frameData);
 
-	SDL_Window* const window = nullptr;
+	SDL_Window* const window;
 
-	std::unique_ptr<class GameMenu> gameUi;
-	std::unique_ptr<class GameRender> gameRender;
+	std::unique_ptr<class Scene> gameScene;
 };

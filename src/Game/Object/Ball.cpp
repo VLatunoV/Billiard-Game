@@ -1,3 +1,4 @@
 #include "Ball.h"
 
-#include "Game/ObjectManager.h"
+void Ball::RegisterSelf(ObjectRegistrat& objReg) const {
+}

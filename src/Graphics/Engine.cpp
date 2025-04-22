@@ -1,8 +1,8 @@
 #include "Engine.h"
 
-#include "GameRender.h"
+#include "FrameData.h"
+#include "Scene.h"
 #include "Viewport.h"
-#include "Ui/GameMenu.h"
 
 #include <imgui.h>
 #include <imgui_impl_sdl3.h>
@@ -12,8 +12,7 @@
 
 GraphicsEngine::GraphicsEngine(SdlProvider& sdlProvider)
 	: window{sdlProvider.GetWindow()}
-	, gameUi{std::make_unique<GameMenu>()}
-	, gameRender{std::make_unique<GameRender>()}
+	, gameScene{std::make_unique<Scene>()}
 {
 
 }
@@ -23,32 +22,32 @@ GraphicsEngine::~GraphicsEngine() {
 }
 
 void GraphicsEngine::DrawFrame() {
-	PreRender();
-	Render();
-	PostRender();
+	static FrameData frameData;
+	PopulateFrameData(frameData);
+	PreRender(frameData);
+	Render(frameData);
+	PostRender(frameData);
 }
 
-void GraphicsEngine::PreRender() {
+void GraphicsEngine::PopulateFrameData(FrameData& frameData) {
+	auto& io = ImGui::GetIO();
+	frameData.io = &io;
+	frameData.drawAreaWidth = int(io.DisplaySize.x);
+	frameData.drawAreaHeight = int(io.DisplaySize.y);
+}
+
+void GraphicsEngine::PreRender(const FrameData& frameData) {
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL3_NewFrame();
 	ImGui::NewFrame();
 
-	gameUi->PreRender();
-	const auto uiWindowSize = gameUi->GetSize();
-	const auto& io = ImGui::GetIO();
-	const RectInt drawArea = {int(uiWindowSize.x), 0, int(io.DisplaySize.x), int(io.DisplaySize.y)};
-	gameRender->SetDrawArea(drawArea);
+	gameScene->PreRender(frameData);
 }
 
-void GraphicsEngine::Render() {
-	const auto& state = gameUi->GetUiState();
-	glClearColor(state.clearColor.x, state.clearColor.y, state.clearColor.z, state.clearColor.w);
-	glClear(GL_COLOR_BUFFER_BIT);
-
-	gameRender->Render();
-	gameUi->Render();
+void GraphicsEngine::Render(const FrameData& frameData) {
+	gameScene->Render(frameData);
 }
 
-void GraphicsEngine::PostRender() {
+void GraphicsEngine::PostRender(const FrameData& frameData) {
 	SDL_GL_SwapWindow(window);
 }

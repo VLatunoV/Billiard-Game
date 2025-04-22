@@ -79,7 +79,7 @@ void DrawCoordinateSystem(float left, float right, float bottom, float top) {
 	glDisable(GL_LINE_STIPPLE);
 }
 
-void GameRender::SetDrawArea(RectInt drawArea) {
+void GameRender::PreRender(RectInt drawArea) {
 	CalculateViewport(drawArea);
 }
 

@@ -1,6 +1,4 @@
 #pragma once
-#include "State.h"
-
 #include "Observer/Observed.h"
 #include "Observer/KeyboardObsever.h"
 #include "Observer/MouseObserver.h"
@@ -42,11 +40,12 @@ private:
 	void KeyDown(const SDL_KeyboardEvent& e) override;
 	void KeyUp(const SDL_KeyboardEvent& e) override;
 
-	State state;
+	bool shouldQuit{};
 
 	std::unique_ptr<class SdlModule> sdlModule;
 	std::unique_ptr<class ImGuiModule> imguiModule;
 
 	std::unique_ptr<class GraphicsEngine> graphicsEngine;
 	std::unique_ptr<class ObjectManager> objectManager;
+	std::unique_ptr<class GameLogic> gameLogic;
 };

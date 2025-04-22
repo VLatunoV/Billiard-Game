@@ -1,6 +1,7 @@
 #include "Application.h"
 
 #include "Game/ObjectManager.h"
+#include "Game/Logic.h"
 #include "Graphics/Engine.h"
 #include "Modules/Imgui.h"
 #include "Modules/Sdl.h"
@@ -40,9 +41,13 @@ int Application::Run() {
 void Application::Startup() {
 	sdlModule = std::make_unique<SdlModule>();
 	imguiModule = std::make_unique<ImGuiModule>(*sdlModule, *sdlModule);
-
 	graphicsEngine = std::make_unique<GraphicsEngine>(*sdlModule);
-	objectManager = std::make_unique<ObjectManager>(static_cast<MouseObserved*>(this), static_cast<KeyboardObserved*>(this));
+
+	ObservedObjects observed{static_cast<MouseObserved*>(this), static_cast<KeyboardObserved*>(this)};
+	objectManager = std::make_unique<ObjectManager>(observed);
+
+	gameLogic = std::make_unique<GameLogic>();
+	objectManager->RegisterObject(*gameLogic->GetBoard());
 
 	RegisterObservers();
 }
@@ -52,8 +57,8 @@ void Application::Shutdown() {}
 void Application::MainLoop() {
 	const auto window = sdlModule->GetWindow();
 
-	state.shouldQuit = false;
-	while (state.shouldQuit == false) {
+	shouldQuit = false;
+	while (shouldQuit == false) {
 		ProcessEvents();
 
 		if (SDL_GetWindowFlags(window) & SDL_WINDOW_MINIMIZED) {
@@ -71,11 +76,11 @@ void Application::ProcessEvents() {
 		ImGui_ImplSDL3_ProcessEvent(&event);
 		switch (event.type) {
 			case SDL_EVENT_QUIT:
-				state.shouldQuit = true;
+				shouldQuit = true;
 				break;
 			case SDL_EVENT_WINDOW_CLOSE_REQUESTED:
 				if (event.window.windowID == SDL_GetWindowID(sdlModule->GetWindow()))
-					state.shouldQuit = true;
+					shouldQuit = true;
 				break;
 		}
 
@@ -84,6 +89,9 @@ void Application::ProcessEvents() {
 }
 
 void Application::HandleInputEvents(SDL_Event& event) {
+	if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_ESCAPE)
+		shouldQuit = true;
+
 	const auto& io = ImGui::GetIO();
 	if (io.WantCaptureMouse == false) {
 		switch (event.type) {
@@ -98,8 +106,6 @@ void Application::HandleInputEvents(SDL_Event& event) {
 			case SDL_EVENT_KEY_UP: return Notify(&KeyboardObserver::KeyUp, event.key);
 		}
 	}
-	if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_ESCAPE)
-		state.shouldQuit = true;
 }
 
 void Application::RegisterMouseObserver(MouseObserver* o) {

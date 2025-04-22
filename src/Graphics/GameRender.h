@@ -4,7 +4,7 @@
 
 class GameRender {
 public:
-    void SetDrawArea(RectInt drawArea);
+    void PreRender(RectInt drawArea);
     void Render();
 
 private:

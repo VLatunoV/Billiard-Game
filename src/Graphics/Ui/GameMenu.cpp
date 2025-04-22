@@ -1,12 +1,13 @@
 #include "GameMenu.h"
+#include "Graphics/FrameData.h"
 
 #include <imgui.h>
 #include <imgui_impl_opengl3.h>
 #include <SDL3/SDL_opengl.h>
 
-void GameMenu::PreRender() {
+void GameMenu::PreRender(const FrameData& frameData) {
 	// Our state
-	const auto& io = ImGui::GetIO();
+	const auto& io = *frameData.io;
 	static bool show_demo_window = false;
 	static bool show_another_window = false;
 

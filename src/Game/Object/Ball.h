@@ -6,6 +6,7 @@
 class Ball: public GameObject {
 public:
 	// From GameObject
+	void RegisterSelf(ObjectRegistrat& objReg) const override;
 
 private:
 	Vector2d pos{};
